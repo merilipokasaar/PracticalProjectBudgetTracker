@@ -1,8 +1,11 @@
 import java.util.Scanner;
-
 class BudgetTracker {
     private double totalIncome;
     private double totalExpenses;
+    private double foodExpenses;
+    private double taxesExpenses;
+    private double entertainmentExpenses;
+    private double otherExpenses;
     private double goalPercentage;
     private Scanner scanner;
 
@@ -11,14 +14,13 @@ class BudgetTracker {
     }
 
     public void start() {
-        welcomeMessage();
-        pausePrint();
+        printWelcomeMessage();
+        pausePrintForASecond();
         enterInitialIncome();
         setSavingsGoal();
-        displayGoalConfirmation();
 
         while (true) {
-            pausePrint();
+            pausePrintForASecond();
             displayMenu();
             int choice = getUserChoice();
             processChoice(choice);
@@ -26,12 +28,12 @@ class BudgetTracker {
 
     }
 
-    private void welcomeMessage() {
+    private void printWelcomeMessage() {
         System.out.println("Welcome to the Budget Tracker!");
         System.out.println("Let's begin!");
     }
 
-    private static void pausePrint() {
+    private static void pausePrintForASecond() {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
@@ -58,22 +60,21 @@ class BudgetTracker {
                 System.out.println("Be ambitious! Choose a bigger savings goal!");
             } else {
                 System.out.println("Goal has been set successfully");
+                System.out.println("With your savings goal, you'll be able to save "
+                        + (totalIncome * goalPercentage / 100) + " euros monthly! That's great!");
                 break;
             }
         }
-    }
 
-    private void displayGoalConfirmation() {
-        System.out.println("That's great! With your savings goal, you'll be able to save "
-                + (totalIncome * goalPercentage / 100) + " euros monthly!");
     }
 
     private void displayMenu() {
         System.out.println("Menu:");
         System.out.println("1. Add additional income");
-        System.out.println("2. Add an expense");
+        System.out.println("2. Add expense");
         System.out.println("3. Check current savings status");
-        System.out.println("4. Exit");
+        System.out.println("4. Overview of expenses");
+        System.out.println("5. Exit");
     }
 
     private int getUserChoice() {
@@ -93,8 +94,10 @@ class BudgetTracker {
                 checkSavingsStatus();
                 break;
             case 4:
-                exitBudgetTracker();
+                getOverviewOfExpenses();
                 break;
+            case 5:
+                exitBudgetTracker();
             default:
                 System.out.println("Invalid choice. Please enter a number between 1 and 4.");
                 break;
@@ -128,11 +131,52 @@ class BudgetTracker {
     }
 
     private void addExpense() {
-        System.out.print("Enter expense: ");
-        double expense = getAPositiveNumberInput();
-        totalExpenses += expense;
+        System.out.println("Choose expense category:");
+        System.out.println("1. Food");
+        System.out.println("2. Taxes");
+        System.out.println("3. Entertainment");
+        System.out.println("4. Other");
+
+        int categoryChoice;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                categoryChoice = scanner.nextInt();
+                if (categoryChoice >= 1 && categoryChoice <= 4) {
+                    break;
+                } else {
+                    System.out.println("Invalid category choice. Please enter a number between 1 and 4.");
+                }
+            } else {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.next();
+            }
+        }
+        scanner.nextLine();
+        System.out.print("Enter expense amount: ");
+        double expenseAmount = getAPositiveNumberInput();
+
+        switch (categoryChoice) {
+            case 1:
+                foodExpenses += expenseAmount;
+                break;
+            case 2:
+                taxesExpenses += expenseAmount;
+                break;
+            case 3:
+                entertainmentExpenses += expenseAmount;
+                break;
+            case 4:
+                otherExpenses += expenseAmount;
+                break;
+            default:
+                System.out.println("Invalid category choice. Expense not added.");
+        }
         System.out.println("Expense added successfully. Total of your expenses this month is: "
-                + totalExpenses + " euros");
+                + calculateTotalExpenses() + " euros");
+    }
+
+    private double calculateTotalExpenses() {
+        return totalExpenses = (foodExpenses + taxesExpenses + entertainmentExpenses + otherExpenses);
     }
 
     private void checkSavingsStatus() {
@@ -145,6 +189,16 @@ class BudgetTracker {
         } else {
             System.out.println("Well done! You are on the right track!");
         }
+    }
+
+    private void getOverviewOfExpenses() {
+        double totalExpenses = calculateTotalExpenses();
+        System.out.println("Overview of the expenses by category:");
+        System.out.println("Food: " + foodExpenses + " euros, " + (foodExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Taxes: " + taxesExpenses + " euros, " + (taxesExpenses / totalExpenses * 100) + "% of all expenses)");
+        System.out.println("Entertainment: " + entertainmentExpenses + " euros, " + (entertainmentExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Other: " + otherExpenses + " euros, " + (otherExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Total Expenses: " + totalExpenses + " euros");
     }
 
     private void exitBudgetTracker() {
