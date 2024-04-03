@@ -9,11 +9,12 @@ public class MotivatingMessages {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/motivating_messages", "root", "kadekopsid644088");
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT message_content FROM motivating_messages ORDER BY RAND() LIMIT 1");
+            ResultSet resultSet = statement.executeQuery("SELECT message_content,author FROM motivating_messages ORDER BY RAND() LIMIT 1");
 
             if (resultSet.next()) {
                 String message = resultSet.getString("message_content");
-                return "\"" + message + "\"";
+                String author = resultSet.getString("author");
+                return "\"" + message + "\" - "+ author;
             }
 
             resultSet.close();
