@@ -1,3 +1,4 @@
+import java.sql.*;
 import java.util.Scanner;
 class BudgetTracker {
     private double totalIncome;
@@ -7,6 +8,7 @@ class BudgetTracker {
     private double entertainmentExpenses;
     private double otherExpenses;
     private double goalPercentage;
+    private String motivatingMessage;
     private Scanner scanner;
 
     public BudgetTracker() {
@@ -74,7 +76,8 @@ class BudgetTracker {
         System.out.println("2. Add expense");
         System.out.println("3. Check current savings status");
         System.out.println("4. Overview of expenses");
-        System.out.println("5. Exit");
+        System.out.println("5. Extra motivation");
+        System.out.println("6. Exit");
     }
 
     private int getUserChoice() {
@@ -97,9 +100,11 @@ class BudgetTracker {
                 getOverviewOfExpenses();
                 break;
             case 5:
+                needMotivatingMessage();
+            case 6:
                 exitBudgetTracker();
             default:
-                System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+                System.out.println("Invalid choice. Please enter a number between 1 and 6.");
                 break;
         }
     }
@@ -200,9 +205,25 @@ class BudgetTracker {
         System.out.println("Other: " + otherExpenses + " euros, " + (otherExpenses / totalExpenses * 100) + "% of all expenses");
         System.out.println("Total Expenses: " + totalExpenses + " euros");
     }
+    private void needMotivatingMessage() {
+        try {
+            // Create an instance of MotivatingMessages class
+            MotivatingMessages motivatingMessages = new MotivatingMessages();
 
-    private void exitBudgetTracker() {
-        System.out.println("Exiting Budget Tracker. See you!");
-        System.exit(0);
-    }
+            // Call the method to retrieve a random motivating message
+            motivatingMessage = motivatingMessages.getRandomMotivatingMessage();
+
+            // Print the motivating message to the console
+            System.out.println("Here's your extra motivation:");
+            System.out.println(motivatingMessage);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 }
+            private void exitBudgetTracker () {
+            System.out.println("Exiting Budget Tracker. See you!");
+            System.exit(0);
+        }
+    }
+

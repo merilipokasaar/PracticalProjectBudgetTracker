@@ -1,21 +1,33 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MotivatingMessages {
-public static void main(String[] args) throws SQLException {
-    try {
+    public String getRandomMotivatingMessage() throws SQLException {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/motivating_messages", "root", "kadekopsid644088");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT message_content FROM motivating_messages ORDER BY RAND() LIMIT 1");
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/motivating_messages", "root", "kadekopsid644088");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from motivating_messages");
+            if (resultSet.next()) {
+                String message = resultSet.getString("message_content");
+                return "\"" + message + "\"";
+            }
 
-        while (resultSet.next()) {
-            System.out.println(resultSet.getString("message_content"));
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-    } catch (Exception e){
-        e.printStackTrace();
+        return null;
     }
 }
 
-}
+
+
+
+
 
