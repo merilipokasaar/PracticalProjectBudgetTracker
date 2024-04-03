@@ -101,6 +101,7 @@ class BudgetTracker {
                 break;
             case 5:
                 needMotivatingMessage();
+                break;
             case 6:
                 exitBudgetTracker();
             default:
