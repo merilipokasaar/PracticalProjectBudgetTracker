@@ -6,12 +6,18 @@ class BudgetTracker {
     private double foodExpenses;
     private double taxesExpenses;
     private double entertainmentExpenses;
+    private double clothingExpenses;
+    private  double medicalHealthcareExpenses;
+    private double householdItemsSuppliesExpenses;
+    private double transportationExpenses;
+    private double giftsDonationsExpenses;
     private double otherExpenses;
     private double goalPercentage;
     private String motivatingMessage;
     private Scanner scanner;
 
     public BudgetTracker() {
+
         scanner = new Scanner(System.in);
     }
 
@@ -141,16 +147,21 @@ class BudgetTracker {
         System.out.println("1. Food");
         System.out.println("2. Taxes");
         System.out.println("3. Entertainment");
-        System.out.println("4. Other");
+        System.out.println("4. Clothing");
+        System.out.println("5. Medical, Healthcare");
+        System.out.println("6. Household Items, Supplies");
+        System.out.println("7. Transportation");
+        System.out.println("8. Gifts, Donations");
+        System.out.println("9. Other");
 
         int categoryChoice;
         while (true) {
             if (scanner.hasNextInt()) {
                 categoryChoice = scanner.nextInt();
-                if (categoryChoice >= 1 && categoryChoice <= 4) {
+                if (categoryChoice >= 1 && categoryChoice <= 9) {
                     break;
                 } else {
-                    System.out.println("Invalid category choice. Please enter a number between 1 and 4.");
+                    System.out.println("Invalid category choice. Please enter a number between 1 and 9.");
                 }
             } else {
                 System.out.println("Invalid input! Please enter a number.");
@@ -172,6 +183,19 @@ class BudgetTracker {
                 entertainmentExpenses += expenseAmount;
                 break;
             case 4:
+                clothingExpenses += expenseAmount;
+                break;
+            case 5:
+                medicalHealthcareExpenses += expenseAmount;
+                break;
+            case 6:
+                householdItemsSuppliesExpenses += expenseAmount;
+            case 7:
+                transportationExpenses += expenseAmount;
+            case 8:
+                giftsDonationsExpenses += expenseAmount;
+                break;
+            case 9:
                 otherExpenses += expenseAmount;
                 break;
             default:
@@ -182,7 +206,7 @@ class BudgetTracker {
     }
 
     private double calculateTotalExpenses() {
-        return totalExpenses = (foodExpenses + taxesExpenses + entertainmentExpenses + otherExpenses);
+        return totalExpenses = (foodExpenses + taxesExpenses + entertainmentExpenses + clothingExpenses + medicalHealthcareExpenses + householdItemsSuppliesExpenses + transportationExpenses + giftsDonationsExpenses + otherExpenses );
     }
 
     private void checkSavingsStatus() {
@@ -203,6 +227,11 @@ class BudgetTracker {
         System.out.println("Food: " + foodExpenses + " euros, " + (foodExpenses / totalExpenses * 100) + "% of all expenses");
         System.out.println("Taxes: " + taxesExpenses + " euros, " + (taxesExpenses / totalExpenses * 100) + "% of all expenses)");
         System.out.println("Entertainment: " + entertainmentExpenses + " euros, " + (entertainmentExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Clothing: " + clothingExpenses + " euros, " + (clothingExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Medical, Healthcare: " + medicalHealthcareExpenses + " euros, " + (medicalHealthcareExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Household Items, Supplies: " + householdItemsSuppliesExpenses + " euros, " + (householdItemsSuppliesExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Transportation: " + transportationExpenses + " euros, " + (transportationExpenses / totalExpenses * 100) + "% of all expenses");
+        System.out.println("Gifts, Donations: " + giftsDonationsExpenses + " euros, " + (giftsDonationsExpenses / totalExpenses * 100) + "% of all expenses");
         System.out.println("Other: " + otherExpenses + " euros, " + (otherExpenses / totalExpenses * 100) + "% of all expenses");
         System.out.println("Total Expenses: " + totalExpenses + " euros");
     }
