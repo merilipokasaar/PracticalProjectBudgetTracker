@@ -8,4 +8,4 @@ This is a simple Java application for managing a budget. People need to keep an 
 - **Set desired saving goal** 
 - **Insert expenses by category** 
 - **See motivating message**
-- **Test**
+- **....**
