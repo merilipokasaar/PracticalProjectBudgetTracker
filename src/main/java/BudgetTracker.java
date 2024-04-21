@@ -1,5 +1,8 @@
+import javax.sound.midi.Soundbank;
 import java.sql.*;
 import java.util.Scanner;
+
+
 class BudgetTracker {
     private double totalIncome;
     private double totalExpenses;
@@ -15,6 +18,7 @@ class BudgetTracker {
     private double goalPercentage;
     private String motivatingMessage;
     private Scanner scanner;
+
 
     public BudgetTracker() {
 
@@ -80,10 +84,11 @@ class BudgetTracker {
         System.out.println("Menu:");
         System.out.println("1. Add additional income");
         System.out.println("2. Add expense");
-        System.out.println("3. Check current savings status");
-        System.out.println("4. Overview of expenses");
-        System.out.println("5. Extra motivation");
-        System.out.println("6. Exit");
+        System.out.println("3. Add new expense category");
+        System.out.println("4. Check current savings status");
+        System.out.println("5. Overview of expenses");
+        System.out.println("6. Extra motivation");
+        System.out.println("7. Exit");
     }
 
     private int getUserChoice() {
@@ -100,18 +105,21 @@ class BudgetTracker {
                 addExpense();
                 break;
             case 3:
-                checkSavingsStatus();
+                addExpenseCategory();
                 break;
             case 4:
-                getOverviewOfExpenses();
+                checkSavingsStatus();
                 break;
             case 5:
-                needMotivatingMessage();
+                getOverviewOfExpenses();
                 break;
             case 6:
+                needMotivatingMessage();
+                break;
+            case 7:
                 exitBudgetTracker();
             default:
-                System.out.println("Invalid choice. Please enter a number between 1 and 6.");
+                System.out.println("Invalid choice. Please enter a number between 1 and 7.");
                 break;
         }
     }
@@ -134,14 +142,22 @@ class BudgetTracker {
         return amount;
     }
 
+    private void addExpenseCategory() {
+        System.out.println("Enter the name of the new expense category: ");
+        scanner.nextLine();
+        String newCategory = scanner.nextLine();
+
+        System.out.println("New category '" + newCategory + "' added successfully!");
+
+    }
     private void addAdditionalIncome() {
         System.out.print("Enter additional income: ");
         double additionalIncome = getAPositiveNumberInput();
         totalIncome += additionalIncome;
         System.out.println("Additional income added successfully. Total of your earnings this month is: "
                 + totalIncome + " euros");
-    }
 
+    }
     private void addExpense() {
         System.out.println("Choose expense category:");
         System.out.println("1. Food");
@@ -168,6 +184,8 @@ class BudgetTracker {
                 scanner.next();
             }
         }
+
+
         scanner.nextLine();
         System.out.print("Enter expense amount: ");
         double expenseAmount = getAPositiveNumberInput();
@@ -199,7 +217,8 @@ class BudgetTracker {
                 otherExpenses += expenseAmount;
                 break;
             default:
-                System.out.println("Invalid category choice. Expense not added.");
+                System.out.println();
+
         }
         System.out.println("Expense added successfully. Total of your expenses this month is: "
                 + calculateTotalExpenses() + " euros");
